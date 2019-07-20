@@ -1,3 +1,4 @@
+// make menu item
 function onOpen() {
   var ui = SpreadsheetApp.getUi();
   ui.createMenu("Add Property")
@@ -6,6 +7,7 @@ function onOpen() {
 }
 
 function addProperty() {
+  // get sheet by sheet name
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Dev for Property Information");
   var propertyNums = sheet.getDataRange().getValues().splice(1);
   if (propertyNums.length == 0) {
@@ -16,6 +18,7 @@ function addProperty() {
     var propertyTitle = "Property #" + ((propertyNums.length + 2) / 8 + 1);
   }
 
+  // define first column
   var col = [propertyTitle, "Property Name / Nickname", "Property Description", "Property Address", "Number of Bathrooms", "Number of Bedrooms", "iCal URL"];
   var range = sheet.getRange(startRowNum, 1, 7, 2);
   // set borders
@@ -25,7 +28,7 @@ function addProperty() {
     }
   }
 
-  // first column
+  // decoration table and set initial values
   range.getCell(1, 1).setValue(col[0]);
   range.getCell(1, 1).setBackground('#2bc2b0');
 
@@ -42,10 +45,10 @@ function addProperty() {
   range.getCell(6, 2).setValue(1);
   
   range.getCell(7, 1).setValue(col[6]);
-  // dropdown
+
+  // make dropdown inside cell
   var arrayValues = ['0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'];
   var rule = SpreadsheetApp.newDataValidation().requireValueInList(arrayValues).build();
   var string = 'Dev for Property Information!B'+ (startRowNum + 4) + ':B' + (startRowNum + 5);
   sheet.getRange(string).setDataValidation(rule);
-
 }
